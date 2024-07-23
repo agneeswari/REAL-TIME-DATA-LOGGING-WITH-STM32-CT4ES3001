@@ -1,0 +1,22 @@
+int main(void) {
+    float temperature;
+
+    HAL_Init();
+    SystemClock_Config();
+
+    // Initialize peripherals
+    MX_GPIO_Init();
+    MX_SPI1_Init();
+
+    // Initialize SD card (if using)
+    if (MX_SDIO_SD_Init() != HAL_OK) {
+        Error_Handler();
+    }
+
+    // Main loop
+    while (1) {
+        temperature = readTemperature();  // Read temperature
+        logTemperature(temperature);     // Log temperature to SD card
+        HAL_Delay(1000);                 // Adjust delay as needed
+    }
+}
